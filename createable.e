@@ -1,6 +1,10 @@
 note
-	description: "Summary description for {CREATEABLE}."
-	author: ""
+	description: "[
+					Abstraction notion of a Createable Object
+					
+					Attributes of the `creation_objects_anchor' TUPLE represent those objects
+					required for the creation of Current.
+					]"
 	date: "$Date$"
 	revision: "$Revision$"
 
@@ -13,36 +17,6 @@ feature {NONE} -- Initialization
 			-- Initialize Current with `a_objects'.
 		deferred
 		end
-
-feature -- Access
-
-feature -- Measurement
-
-feature -- Status report
-
-feature -- Status setting
-
-feature -- Cursor movement
-
-feature -- Element change
-
-feature -- Removal
-
-feature -- Resizing
-
-feature -- Transformation
-
-feature -- Conversion
-
-feature -- Duplication
-
-feature -- Miscellaneous
-
-feature -- Basic operations
-
-feature -- Obsolete
-
-feature -- Inapplicable
 
 feature {NONE} -- Implementation: Creation Objects
 
@@ -57,6 +31,6 @@ feature {NONE} -- Implementation: Creation Objects
 		end
 
 invariant
-	invariant_clause: True -- Your invariant here
+	creation_objects_anchor_only: not attached creation_objects_anchor
 
 end

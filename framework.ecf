@@ -2,6 +2,9 @@
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-11-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-11-0 http://www.eiffel.com/developers/xml/configuration-1-11-0.xsd" name="framework" uuid="F463C069-2394-4A68-87FA-5A3F7DA8E1FE" library_target="framework">
 	<target name="framework">
 		<root all_classes="true"/>
+		<file_rule>
+			<exclude>git</exclude>
+		</file_rule>
 		<option warning="true" void_safety="transitional" syntax="provisional">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
