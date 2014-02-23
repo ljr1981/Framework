@@ -19,6 +19,7 @@ feature {NONE} -- Initialization
 	make_one_based_filled (a_bounds_array: ARRAY [INTEGER]; v: G)
 			-- Initialize Current as a one-based lower bound on all dimensional vectors
 			-- 		and then filled with `v'.
+			--| Tested: {ARRAYN_TEST_SET}.test_one_based_filled
 		require
 			positive_bounds: is_positive_bounds (a_bounds_array)
 		do
@@ -63,6 +64,7 @@ feature {NONE} -- Initialization
 
 	make_n_based (a_bounds: like bounds)
 			-- Initialize Current with `a_nb' like `bounds'.
+			--| Tested: {ARRAYN_TEST_SET}.test_one_based_filled
 		require
 			is_valid_bounds: is_valid_bounds (a_bounds)
 		local
@@ -91,6 +93,7 @@ feature -- Access
 
 	bounds: ARRAY [attached like vector_anchor]
 			-- Lower and Upper bounds of Current.
+			--| Tested: {ARRAYN_TEST_SET}.test_make_n_based
 
 	dimensions: INTEGER
 			-- Number of dimensions in Current `bounds'
@@ -151,34 +154,14 @@ feature -- Access
 			item_at_location: internal_items [location (a_vector)] ~ a_object
 		end
 
-	location (a_vector: ARRAY [INTEGER]): INTEGER
-			-- The linear location of element in `internal_items' at `a_vector'.
-		require
-			two_or_more: dimensions > 1
-			is_valid_vector: is_valid_vector (a_vector)
-		local
-			i,
-			l_segment_size: INTEGER
-		do
-			from
-				i := 1
-				l_segment_size := max_size
-			until
-				i = dimensions
-			loop
-				l_segment_size := (l_segment_size / (bounds [i].upper_nb - bounds [i].lower_nb + 1)).truncated_to_integer
-				Result := Result + l_segment_size * (a_vector [i] - bounds [i].lower_nb)
-				i := i + 1
-			end
-			Result := Result + a_vector [i]
-		end
-
 feature -- Basic Operations
 
 	clear_all
 			-- Clear all `internal_items' of Current.
 		do
-			internal_items.clear_all
+			make_n_based (bounds)
+		ensure
+			is_empty: is_empty
 		end
 
 	do_all (a_action: PROCEDURE [ANY, TUPLE [G]])
@@ -217,12 +200,14 @@ feature -- Status Report
 
 	frozen is_empty: BOOLEAN
 			-- Is Current empty?
+			--| Tested: {ARRAYN_TEST_SET}.test_one_based_filled
 		do
 			Result := across internal_items as ic_items all not attached {G} ic_items.item end
 		end
 
 	frozen is_valid_vector (a_vector: ARRAY [INTEGER]): BOOLEAN
 			-- Is `a_vector' valid, based on `bounds'?
+			--| Tested: {ARRAYN_TEST_SET}.test_make_n_based
 		do
 			Result := a_vector.count <= dimensions
 			Result := Result and across a_vector as ic_vector
@@ -239,12 +224,14 @@ feature -- Status Report
 
 	frozen is_positive_bounds (a_array: ARRAY [INTEGER]): BOOLEAN
 			-- Is `a_array' a valid set of boundaries for `bounds'?
+			--| Tested: {ARRAYN_TEST_SET}.test_make_n_based
 		do
 			Result := across a_array as ic_items all ic_items.item > 0 end
 		end
 
 	frozen is_valid_bounds (a_bounds: like bounds): BOOLEAN
 			-- Is `a_bounds' valid based on all positive and lower <= upper?
+			--| Tested: {ARRAYN_TEST_SET}.test_one_based_filled
 		do
 			Result := across a_bounds as ic_bounds all
 							ic_bounds.item.lower_nb > 0 and
@@ -253,7 +240,29 @@ feature -- Status Report
 						end
 		end
 
-feature {NONE} -- Implementation
+feature {TEST_SET_HELPER} -- Implementation
+
+	location (a_vector: ARRAY [INTEGER]): INTEGER
+			-- The linear location of element in `internal_items' at `a_vector'.
+		require
+			two_or_more: dimensions > 1
+			is_valid_vector: is_valid_vector (a_vector)
+		local
+			i,
+			l_segment_size: INTEGER
+		do
+			from
+				i := 1
+				l_segment_size := max_size
+			until
+				i = dimensions
+			loop
+				l_segment_size := (l_segment_size / (bounds [i].upper_nb - bounds [i].lower_nb + 1)).truncated_to_integer
+				Result := Result + l_segment_size * (a_vector [i] - bounds [i].lower_nb)
+				i := i + 1
+			end
+			Result := Result + a_vector [i]
+		end
 
 	internal_items: ARRAY [ANY]
 			-- Internal storage of items for Current.
@@ -262,6 +271,7 @@ feature {NONE} -- Constants
 
 	vector_anchor: detachable TUPLE [lower_nb, upper_nb: INTEGER]
 			-- Type anchor for vector `bounds'.
+			--| Tested: {ARRAYN_TEST_SET}.test_make_n_based
 
 invariant
 	valid_bounds: is_valid_bounds (bounds)
