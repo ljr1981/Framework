@@ -17,6 +17,8 @@ feature -- Test routines
 
 	test_make_n_based
 			-- General testing of {ARRAYN}
+		note
+			testing:  "execution/isolated"
 		local
 			l_array_n: ARRAYN [INTEGER]
 		do
@@ -28,6 +30,8 @@ feature -- Test routines
 
 	test_one_based_filled
 			-- Exercise class contracts of `make_one_based_filled' of {ARRAYN}
+		note
+			testing:  "execution/isolated"
 		local
 			l_array_n: ARRAYN [CREATEABLE_TEST_OBJECT]
 			l_test_object: CREATEABLE_TEST_OBJECT
@@ -38,6 +42,8 @@ feature -- Test routines
 
 	test_replace
 			-- Exercise and test {ARRAYN}.place/replace.
+		note
+			testing:  "execution/isolated"
 		local
 			l_array_n: ARRAYN [CREATEABLE_TEST_OBJECT]
 			l_test_object: CREATEABLE_TEST_OBJECT
@@ -51,6 +57,8 @@ feature -- Test routines
 
 	test_place
 			-- Exercise and test {ARRAYN}.place/replace.
+		note
+			testing:  "execution/isolated"
 		local
 			l_array_n: ARRAYN [CREATEABLE_TEST_OBJECT]
 			l_test_object: CREATEABLE_TEST_OBJECT
@@ -63,6 +71,8 @@ feature -- Test routines
 
 	test_clear_all
 			-- Exercise and test {ARRAYN}.clear_all/is_empty
+		note
+			testing:  "execution/isolated"
 		local
 			l_array_n: ARRAYN [CREATEABLE_TEST_OBJECT]
 			l_test_object: CREATEABLE_TEST_OBJECT
@@ -79,6 +89,8 @@ feature -- Test routines
 			-- Exercise and test {ARRAYN}.location
 			--| Construct the vector from the upper bounds of the array itself and then
 			--|		test to see if that derived vector matches the Max_size of the array.
+		note
+			testing:  "execution/isolated"
 		local
 			l_array_n: ARRAYN [CREATEABLE_TEST_OBJECT]
 			l_vector: ARRAY [INTEGER]
