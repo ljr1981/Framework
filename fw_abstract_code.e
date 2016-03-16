@@ -14,7 +14,7 @@ class
 	FW_ABSTRACT_CODE
 
 inherit
-	CREATEABLE
+	FW_CREATEABLE
 
 create
 	make_with_objects,

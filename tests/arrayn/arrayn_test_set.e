@@ -16,11 +16,11 @@ inherit
 feature -- Test routines
 
 	test_make_n_based
-			-- General testing of {ARRAYN}
+			-- General testing of {FW_ARRAYN}
 		note
 			testing:  "execution/isolated"
 		local
-			l_array_n: ARRAYN [INTEGER]
+			l_array_n: FW_ARRAYN [INTEGER]
 		do
 			create l_array_n.make_n_based (<<[1,2], [1,2], [1,2]>>)
 			create l_array_n.make_one_based (<<2, 2, 2>>)
@@ -29,11 +29,11 @@ feature -- Test routines
 		end
 
 	test_one_based_filled
-			-- Exercise class contracts of `make_one_based_filled' of {ARRAYN}
+			-- Exercise class contracts of `make_one_based_filled' of {FW_ARRAYN}
 		note
 			testing:  "execution/isolated"
 		local
-			l_array_n: ARRAYN [CREATEABLE_TEST_OBJECT]
+			l_array_n: FW_ARRAYN [CREATEABLE_TEST_OBJECT]
 			l_test_object: CREATEABLE_TEST_OBJECT
 		do
 			create l_test_object.make_with_objects (name_string, counted_stuff)
@@ -41,11 +41,11 @@ feature -- Test routines
 		end
 
 	test_replace
-			-- Exercise and test {ARRAYN}.place/replace.
+			-- Exercise and test {FW_ARRAYN}.place/replace.
 		note
 			testing:  "execution/isolated"
 		local
-			l_array_n: ARRAYN [CREATEABLE_TEST_OBJECT]
+			l_array_n: FW_ARRAYN [CREATEABLE_TEST_OBJECT]
 			l_test_object: CREATEABLE_TEST_OBJECT
 		do
 			create l_test_object.make_with_objects (name_string, counted_stuff)
@@ -56,11 +56,11 @@ feature -- Test routines
 		end
 
 	test_place
-			-- Exercise and test {ARRAYN}.place/replace.
+			-- Exercise and test {FW_ARRAYN}.place/replace.
 		note
 			testing:  "execution/isolated"
 		local
-			l_array_n: ARRAYN [CREATEABLE_TEST_OBJECT]
+			l_array_n: FW_ARRAYN [CREATEABLE_TEST_OBJECT]
 			l_test_object: CREATEABLE_TEST_OBJECT
 		do
 			create l_test_object.make_with_objects (name_string, counted_stuff)
@@ -70,11 +70,11 @@ feature -- Test routines
 		end
 
 	test_clear_all
-			-- Exercise and test {ARRAYN}.clear_all/is_empty
+			-- Exercise and test {FW_ARRAYN}.clear_all/is_empty
 		note
 			testing:  "execution/isolated"
 		local
-			l_array_n: ARRAYN [CREATEABLE_TEST_OBJECT]
+			l_array_n: FW_ARRAYN [CREATEABLE_TEST_OBJECT]
 			l_test_object: CREATEABLE_TEST_OBJECT
 		do
 			create l_test_object.make_with_objects (name_string, counted_stuff)
@@ -86,13 +86,13 @@ feature -- Test routines
 		end
 
 	test_location
-			-- Exercise and test {ARRAYN}.location
+			-- Exercise and test {FW_ARRAYN}.location
 			--| Construct the vector from the upper bounds of the array itself and then
 			--|		test to see if that derived vector matches the Max_size of the array.
 		note
 			testing:  "execution/isolated"
 		local
-			l_array_n: ARRAYN [CREATEABLE_TEST_OBJECT]
+			l_array_n: FW_ARRAYN [CREATEABLE_TEST_OBJECT]
 			l_vector: ARRAY [INTEGER]
 		do
 			l_array_n := test_array_empty
@@ -109,13 +109,13 @@ feature {NONE} -- Implementation
 
 	counted_stuff: INTEGER = 500
 
-	test_array_filled (a_default: CREATEABLE_TEST_OBJECT): ARRAYN [CREATEABLE_TEST_OBJECT]
+	test_array_filled (a_default: CREATEABLE_TEST_OBJECT): FW_ARRAYN [CREATEABLE_TEST_OBJECT]
 			-- Test array one.
 		once
 			create Result.make_n_based_filled (<<[1,2], [1,2], [1,2]>>, a_default)
 		end
 
-	test_array_empty: ARRAYN [CREATEABLE_TEST_OBJECT]
+	test_array_empty: FW_ARRAYN [CREATEABLE_TEST_OBJECT]
 			-- Test array one.
 		once
 			create Result.make_n_based (<<[1,2], [1,2], [1,2]>>)

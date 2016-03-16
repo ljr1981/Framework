@@ -6,7 +6,7 @@ note
 	revision: "$Revision: $"
 
 class
-	ARRAYN [G -> ANY]
+	FW_ARRAYN [G -> ANY]
 
 create
 	make_n_based,

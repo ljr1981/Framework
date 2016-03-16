@@ -9,7 +9,7 @@ note
 	revision: "$Revision$"
 
 deferred class
-	CREATEABLE
+	FW_CREATEABLE
 
 feature {NONE} -- Initialization
 

@@ -9,7 +9,7 @@ deferred class
 	FW_DATA_SOURCED [G -> ANY, W -> EV_WIDGET]
 
 inherit
-	CREATEABLE
+	FW_CREATEABLE
 
 feature {NONE} -- Initialization
 
