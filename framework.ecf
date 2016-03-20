@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-12-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-12-0 http://www.eiffel.com/developers/xml/configuration-1-12-0.xsd" name="framework" uuid="F463C069-2394-4A68-87FA-5A3F7DA8E1FE" library_target="test">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="framework" uuid="F463C069-2394-4A68-87FA-5A3F7DA8E1FE" library_target="framework">
 	<target name="test">
 		<description>Test target for Framework</description>
 		<root class="ANY" feature="default_create"/>
@@ -8,7 +8,7 @@
 			<exclude>eifgens</exclude>
 			<exclude>git</exclude>
 		</file_rule>
-		<option warning="true" void_safety="transitional" syntax="provisional">
+		<option warning="true" is_obsolete_routine_type="true" void_safety="transitional" syntax="provisional">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<setting name="console_application" value="true"/>
@@ -18,7 +18,7 @@
 		<library name="vision2" location="$ISE_LIBRARY\library\vision2\vision2-safe.ecf"/>
 		<cluster name="framework" location=".\" recursive="true"/>
 	</target>
-	<target name="library" extends="test">
+	<target name="framework" extends="test">
 		<description>Framework library</description>
 		<root all_classes="true"/>
 		<version major="1" minor="1" release="1" build="1" company="Savannah Software Craftsmen" product="General Application Framework" trademark="SSC" copyright="2014"/>
