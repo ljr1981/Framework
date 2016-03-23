@@ -11,7 +11,20 @@ class
 	TEXT_FIELD_TEST_SET
 
 inherit
-	TEST_SET_HELPER
+	EQA_TEST_SET
+		rename
+			assert as assert_old
+		end
+
+	EQA_COMMONLY_USED_ASSERTIONS
+		undefine
+			default_create
+		end
+
+	TEST_SET_BRIDGE
+		undefine
+			default_create
+		end
 
 feature -- Test routines
 
@@ -23,13 +36,17 @@ feature -- Test routines
 			l_field: FW_TEXT_FIELD
 		do
 			create l_field.make_with_objects (agent get_test_string_feature, agent save_test_string_feature, Void, Default_text)
-			assert_strings_equal ("empty_text_field", Void, l_field.content)
+			assert_equal ("empty_text_field", Void, l_field.content)
 				-- Ensure content loads from model --> field content
 			l_field.load_content
-			assert_strings_equal ("has_default_value", Default_text, l_field.content)
+			check has_content: attached l_field.content as al_content then
+				assert_strings_equal ("has_default_value", Default_text, al_content.out)
+			end
 				-- Ensure field content --> model feature
 			l_field.set_attached_content ("my_attached_stuff")
-			assert_strings_equal ("has_my_attached_stuff", "my_attached_stuff", l_field.content)
+			check has_content: attached l_field.content as al_content then
+				assert_strings_equal ("has_my_attached_stuff", "my_attached_stuff", al_content.out)
+			end
 			l_field.save_content
 			assert_strings_equal ("has_my_attached_stuff_saved", "my_attached_stuff", test_string_feature)
 		end

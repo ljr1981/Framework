@@ -63,7 +63,7 @@ feature -- Basic Operations
 			save_content_agent.call (content)
 		end
 
-feature {NONE} -- Implementation: Creation Objects
+feature {TEST_SET_BRIDGE} -- Implementation: Creation Objects
 
 	creation_objects_anchor: detachable TUPLE [load_content_agent: like load_content_agent; save_content_agent: like save_content_agent; validate_content_agent: like validate_content_agent; default_content: like default_content]
 			-- Creation objects anchor for Current
@@ -89,7 +89,7 @@ feature -- Settings
 			save_is_automatic: is_save_automatic
 		end
 
-feature {TEST_SET_HELPER} -- Implemenation
+feature {TEST_SET_BRIDGE} -- Implemenation
 
 	content: detachable G
 			-- Primitive content to be displayed in GUI by Current.
@@ -97,7 +97,7 @@ feature {TEST_SET_HELPER} -- Implemenation
 	default_content: like content
 			-- Primitive content to be displayed in GUI by Current by default.
 
-feature {NONE} -- Implemenation
+feature {TEST_SET_BRIDGE} -- Implemenation
 
 	load_content_agent: FUNCTION [ANY, TUPLE, like content]
 			-- Load from model to Current. pre/post-load actions.

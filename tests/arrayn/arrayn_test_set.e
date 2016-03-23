@@ -11,7 +11,20 @@ class
 	ARRAYN_TEST_SET
 
 inherit
-	TEST_SET_HELPER
+	EQA_TEST_SET
+		rename
+			assert as assert_old
+		end
+
+	EQA_COMMONLY_USED_ASSERTIONS
+		undefine
+			default_create
+		end
+
+	TEST_SET_BRIDGE
+		undefine
+			default_create
+		end
 
 feature -- Test routines
 
@@ -25,7 +38,7 @@ feature -- Test routines
 			create l_array_n.make_n_based (<<[1,2], [1,2], [1,2]>>)
 			create l_array_n.make_one_based (<<2, 2, 2>>)
 			create l_array_n.make_one_based (<<2, 2, 3>>)
-			assert_equals ("location_is_4", 4, l_array_n.location (<<1, 2, 1>>))
+			assert_equal ("location_is_4", 4, l_array_n.location (<<1, 2, 1>>))
 		end
 
 	test_one_based_filled
@@ -52,7 +65,7 @@ feature -- Test routines
 			l_array_n := test_array_filled (l_test_object)
 			create l_test_object.make_with_objects ("another_name", 10)
 			l_array_n.replace (l_test_object, <<1,2,2>>)
-			assert_equals ("another_name_and_10", l_test_object, l_array_n.item (<<1,2,2>>))
+			assert_equal ("another_name_and_10", l_test_object, l_array_n.item (<<1,2,2>>))
 		end
 
 	test_place
@@ -66,7 +79,7 @@ feature -- Test routines
 			create l_test_object.make_with_objects (name_string, counted_stuff)
 			l_array_n := test_array_empty
 			l_array_n.place (l_test_object, <<1,2,2>>)
-			assert_equals ("another_name_and_10", l_test_object, l_array_n.item (<<1,2,2>>))
+			assert_equal ("another_name_and_10", l_test_object, l_array_n.item (<<1,2,2>>))
 		end
 
 	test_clear_all
@@ -80,7 +93,7 @@ feature -- Test routines
 			create l_test_object.make_with_objects (name_string, counted_stuff)
 			l_array_n := test_array_empty
 			l_array_n.place (l_test_object, <<1,2,2>>)
-			assert_equals ("another_name_and_10", l_test_object, l_array_n.item (<<1,2,2>>))
+			assert_equal ("another_name_and_10", l_test_object, l_array_n.item (<<1,2,2>>))
 			l_array_n.clear_all
 			assert ("array_filled_any", across l_array_n.internal_items as ic_items all attached {ANY} ic_items.item end)
 		end
@@ -100,7 +113,7 @@ feature -- Test routines
 			across 1 |..| l_array_n.dimensions as ic_index loop
 				l_vector.put (l_array_n.bounds [ic_index.item].upper_nb, ic_index.item)
 			end
-			assert_equals ("max_location_is_dimensions", l_array_n.Max_size, l_array_n.location (l_vector))
+			assert_integers_equal ("max_location_is_dimensions", l_array_n.Max_size, l_array_n.location (l_vector))
 		end
 
 feature {NONE} -- Implementation

@@ -69,7 +69,6 @@ feature {NONE} -- Initialization
 			is_valid_bounds: is_valid_bounds (a_bounds)
 		local
 			l_element_count,
-			l_plane_count,
 			i: INTEGER
 		do
 
@@ -80,8 +79,7 @@ feature {NONE} -- Initialization
 			until
 				i > a_bounds.count
 			loop
-				l_plane_count := ((a_bounds [i].upper_nb - a_bounds [i].lower_nb) + 1)
-				l_element_count := l_element_count * l_plane_count
+				l_element_count := l_element_count * ((a_bounds [i].upper_nb - a_bounds [i].lower_nb) + 1)
 				i := i + 1
 			end
 			create internal_items.make_filled (create {ANY}, 1, l_element_count)
@@ -240,7 +238,7 @@ feature -- Status Report
 						end
 		end
 
-feature {TEST_SET_HELPER} -- Implementation
+feature {TEST_SET_BRIDGE} -- Implementation
 
 	location (a_vector: ARRAY [INTEGER]): INTEGER
 			-- The linear location of element in `internal_items' at `a_vector'.
@@ -267,7 +265,7 @@ feature {TEST_SET_HELPER} -- Implementation
 	internal_items: ARRAY [ANY]
 			-- Internal storage of items for Current.
 
-feature {NONE} -- Constants
+feature {TEST_SET_BRIDGE} -- Constants
 
 	vector_anchor: detachable TUPLE [lower_nb, upper_nb: INTEGER]
 			-- Type anchor for vector `bounds'.

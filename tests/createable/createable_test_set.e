@@ -11,7 +11,20 @@ class
 	CREATEABLE_TEST_SET
 
 inherit
-	TEST_SET_HELPER
+	EQA_TEST_SET
+		rename
+			assert as assert_old
+		end
+
+	EQA_COMMONLY_USED_ASSERTIONS
+		undefine
+			default_create
+		end
+
+	TEST_SET_BRIDGE
+		undefine
+			default_create
+		end
 
 feature -- Test routines
 
@@ -24,7 +37,7 @@ feature -- Test routines
 		do
 			create l_object.make_with_objects (my_name, counted_stuff)
 			assert_strings_equal ("name_is_my_name", my_name, l_object.name)
-			assert_equals ("counted_stuff_is_500", counted_stuff, l_object.counted_stuff)
+			assert_equal ("counted_stuff_is_500", counted_stuff, l_object.counted_stuff)
 		end
 
 feature {NONE} -- Implementation: Constants

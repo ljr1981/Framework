@@ -13,7 +13,7 @@
 		</option>
 		<setting name="console_application" value="true"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="test_set_helper" location="$GITHUB\test_set_helper\test_set_helper.ecf"/>
+		<library name="test_set_bridge" location="$GITHUB\test_extension\test_set_bridge.ecf"/>
 		<library name="testing" location="$ISE_LIBRARY\library\testing\testing-safe.ecf"/>
 		<library name="vision2" location="$ISE_LIBRARY\library\vision2\vision2-safe.ecf"/>
 		<cluster name="framework" location=".\" recursive="true"/>
