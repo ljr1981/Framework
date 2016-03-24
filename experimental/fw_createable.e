@@ -1,12 +1,10 @@
 note
 	description: "[
-					Abstraction notion of a Createable Object
-					
-					Attributes of the `creation_objects_anchor' TUPLE represent those objects
-					required for the creation of Current.
-					]"
-	date: "$Date$"
-	revision: "$Revision$"
+		Abstraction notion of a Createable Object
+		
+		Attributes of the `creation_objects_anchor' TUPLE represent those objects
+		required for the creation of Current.
+		]"
 
 deferred class
 	FW_CREATEABLE

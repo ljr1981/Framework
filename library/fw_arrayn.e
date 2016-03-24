@@ -2,8 +2,6 @@ note
 	description: "[
 					Representation of a Multi-dimensional Array.
 					]"
-	date: "$Date: $"
-	revision: "$Revision: $"
 
 class
 	FW_ARRAYN [G -> ANY]
@@ -274,4 +272,9 @@ feature {TEST_SET_BRIDGE} -- Constants
 invariant
 	valid_bounds: is_valid_bounds (bounds)
 
-;end
+note
+	design: "[
+		An array which can be multi-dimensional.
+		]"
+
+end

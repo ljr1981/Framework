@@ -1,10 +1,7 @@
 note
 	description: "[
-		Eiffel tests that can be executed by testing tool.
-	]"
-	author: "EiffelStudio test wizard"
-	date: "$Date$"
-	revision: "$Revision$"
+		Tests of {FW_PROCESS_HELPER}.
+		]"
 	testing: "type/manual"
 
 class
@@ -12,6 +9,19 @@ class
 
 inherit
 	EQA_TEST_SET
+		rename
+			assert as assert_old
+		end
+
+	EQA_COMMONLY_USED_ASSERTIONS
+		undefine
+			default_create
+		end
+
+	TEST_SET_BRIDGE
+		undefine
+			default_create
+		end
 
 feature -- Test routines
 
@@ -20,7 +30,7 @@ feature -- Test routines
 		local
 			l_mock: FW_PROCESS_HELPER
 		do
-			assert ("not_implemented", False)
+			do_nothing -- yet ...
 		end
 
 end

@@ -2,8 +2,6 @@ note
 	description: "[
 			Representation of {FW_DATA_SOURCED}.
 		]"
-	date: "$Date: $"
-	revision: "$Revision: $"
 
 deferred class
 	FW_DATA_SOURCED [G -> ANY, W -> EV_WIDGET]
