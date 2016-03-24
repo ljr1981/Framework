@@ -7,12 +7,33 @@ class
 
 feature -- Access
 
-	next_prompt: STRING
+	next_prompt_with_text (a_text: STRING): STRING
+			-- `next_prompt_with_text' `a_text'.
+		local
+			l_last: STRING
+		do
+			Result := next_prompt.out
+			Result.append_character (' ')
+			Result.append_string (a_text)
+			l_last := last_prompt.twin
+			last_prompt := Result
+			across
+				l_last as ic_last
+			loop
+				Result.prepend_character ('%B')
+			end
+		end
+
+	last_prompt: STRING
+			-- `last_prompt'.
+		attribute
+			create Result.make_empty
+		end
+
+	next_prompt: CHARACTER
 			-- `next_prompt' in series.
 		do
-			create Result.make_empty
-			Result.append_character ('%B')
-			Result.append_character (spin_characters [next_character_number + 1])
+			Result := spin_characters [next_character_number + 1]
 			next_character_number := next_character_number + 1
 			if next_character_number > 3 then
 				next_character_number := 0
