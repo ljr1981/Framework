@@ -10,6 +10,14 @@ note
 class
 	FW_PROCESS_HELPER
 
+feature -- Status Report
+
+	has_file_in_path (a_name: STRING): BOOLEAN
+			-- `has_file_in_path' as `a_name'?
+		do
+			Result := not output_of_command ("where " + a_name, "").same_string ("INFO: Could not find files for the given pattern(s).")
+		end
+
 feature -- Basic Operations
 
 	last_error: INTEGER
