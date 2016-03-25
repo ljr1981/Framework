@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="framework" uuid="F463C069-2394-4A68-87FA-5A3F7DA8E1FE" library_target="framework">
+	<description>Collection of classes too small for their own library</description>
 	<target name="test">
 		<description>Test target for Framework</description>
 		<root class="ANY" feature="default_create"/>

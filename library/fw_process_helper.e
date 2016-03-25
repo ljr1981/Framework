@@ -14,8 +14,13 @@ feature -- Status Report
 
 	has_file_in_path (a_name: STRING): BOOLEAN
 			-- `has_file_in_path' as `a_name'?
+		local
+			l_result,
+			l_msg: STRING
 		do
-			Result := not output_of_command ("where " + a_name, "").same_string ("INFO: Could not find files for the given pattern(s).")
+			l_msg := dos_where_not_found_message.twin
+			l_result := output_of_command ("where " + a_name, "")
+			Result := not l_result.same_string (l_msg)
 		end
 
 feature -- Basic Operations
@@ -59,5 +64,9 @@ feature -- Basic Operations
 			retried := True
 			retry
         end
+
+feature {TEST_SET_BRIDGE} -- Implementation: Constants
+
+	DOS_where_not_found_message: STRING = "INFO: Could not find files for the given pattern(s).%R%N"
 
 end
