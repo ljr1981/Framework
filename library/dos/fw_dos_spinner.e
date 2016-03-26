@@ -12,7 +12,7 @@ feature -- Access
 		local
 			l_last: STRING
 		do
-			Result := next_prompt.out
+			Result := internal_next_prompt.out
 			Result.append_character (' ')
 			Result.append_string (a_text)
 			l_last := last_prompt.twin
@@ -24,23 +24,29 @@ feature -- Access
 			end
 		end
 
+	next_prompt: STRING
+			-- `next_prompt'
+		do
+			Result := "%B" + internal_next_prompt.out
+		end
+
+feature {TEST_SET_BRIDGE} -- Implementation
+
 	last_prompt: STRING
 			-- `last_prompt'.
 		attribute
 			create Result.make_empty
 		end
 
-	next_prompt: CHARACTER
-			-- `next_prompt' in series.
+	internal_next_prompt: CHARACTER
+			-- `internal_next_prompt' in series.
 		do
 			Result := spin_characters [next_character_number + 1]
 			next_character_number := next_character_number + 1
-			if next_character_number > 3 then
+			if next_character_number > (spin_characters.count - 1) then
 				next_character_number := 0
 			end
 		end
-
-feature {NONE} -- Implementation
 
 	next_character_number: INTEGER
 
