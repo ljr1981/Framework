@@ -9,8 +9,8 @@ deferred class
 feature -- Access
 
 	uuid: UUID
-			-- `uuid' of Current {CP_PERMISSIONED_ITEM}.
-		once
+			-- `uuid' of Current {FW_UU_IDENTIFIED} generated from `uuid_string'.
+		once ("object")
 			create Result.make_from_string (uuid_string)
 		end
 
