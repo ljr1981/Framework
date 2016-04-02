@@ -39,8 +39,7 @@ feature -- Output
 					if l_add_quotes then Result.append_character ('"') end
 					Result.append_string_general (al_value.out)
 					if l_add_quotes then Result.append_character ('"') end
-					Result.append_character (';')
-					Result.append_character (' ')
+					Result.append_string_general (attribute_separator)
 				end
 			end
 			if Result.count > 0 and then Result [Result.count] = ' ' then
@@ -48,29 +47,20 @@ feature -- Output
 			end
 		end
 
-feature -- Attributes
+	attribute_separator: STRING
+			-- `attribute_separator' used between `attributes_out'.
+		once ("object")
+			Result := "; "
+		end
 
---	color: 				attached like attribute_tuple_anchor attribute Result := ["black", "black", Void, "color", is_unquoted] end
---	colorscheme: 		attached like attribute_tuple_anchor attribute Result := ["", "", Void, "colorscheme", is_unquoted] end
---	comment: 			attached like attribute_tuple_anchor attribute Result := ["", "", Void, "comment", is_quoted] end
---	fillcolor: 			attached like attribute_tuple_anchor attribute Result := ["black", "black", Void, "fillcolor", is_unquoted] end
---	fontcolor: 			attached like attribute_tuple_anchor attribute Result := ["black", "black", Void, "fontcolor", is_unquoted] end
---	fontname: 			attached like attribute_tuple_anchor attribute Result := ["Times-Roman", "Times-Roman", Void, "fontname", is_unquoted] end
---	fontsize: 			attached like attribute_tuple_anchor attribute Result := [14, 14, 1, "fontsize", is_unquoted] end
---	labelloc: 			attached like attribute_tuple_anchor attribute Result := ["c", "c", Void, "labelloc", is_unquoted] end
---	showboxes: 			attached like attribute_tuple_anchor attribute Result := [0, 0, 0, "showboxes", is_unquoted] end
---	target:				attached like attribute_tuple_anchor attribute Result := ["<none>", "<none>", Void, "target", is_unquoted] end
---	tooltip: 			attached like attribute_tuple_anchor attribute Result := ["", "", Void, "tooltip", is_unquoted] end
---	xlabel:				attached like attribute_tuple_anchor attribute Result := ["", "", Void, "xlabel", is_unquoted] end
---	xlp: 				attached like attribute_tuple_anchor attribute Result := ["", "", Void, "xlp", is_unquoted] end
+feature -- Attributes
 
 	attribute_list: HASH_TABLE [attached like attribute_tuple_anchor, STRING]
 			-- `attribute_list'.
 		do
 			create Result.make (0)
---			Result.force (color, "color")
 		ensure
-			count: Result.count >= 13
+			count: Result.count >= 0
 			matching: across Result as ic all ic.key.same_string (ic.item.attr_name) end
 		end
 
@@ -103,4 +93,9 @@ feature {NONE} -- Implementation: Constants
 
 	is_unquoted: BOOLEAN = False
 
+;note
+	how_to: "[
+		See EIS link to "Attribute Option Design.png"
+		]"
+	EIS: "src=file://$GITHUB\graphviz\docs\Attribute Option Design.png"
 end
