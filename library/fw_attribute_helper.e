@@ -114,11 +114,12 @@ feature -- Settings
 			a_attribute_agent.call ([Void])
 			check attached a_attribute_agent.last_result as al_result then
 				check a_value_is_in_defaults_list:
-					attached attribute_defaults_list (a_attribute_agent.twin) as al_defaults_list and then
+					(attached {STRING} al_result.attr_default as al_default and then al_default.is_empty) xor
+					(attached attribute_defaults_list (a_attribute_agent.twin) as al_defaults_list and then
 						attached {STRING} a_value as al_value implies
 							across al_defaults_list as ic some
 									attached {STRING} ic.item as al_item and then al_item.same_string (al_value)
-								end
+								end)
 				end
 				al_result [Attribute_value] := a_value
 				if
