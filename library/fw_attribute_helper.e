@@ -41,7 +41,7 @@ feature -- Output
 				then
 					l_add_quotes := ic_list.item.is_quoted
 					Result.append_string_general (ic_list.item.attr_name)
-					Result.append_character ('=')
+					Result.append_string_general (key_value_separator)
 					if l_add_quotes then Result.append_character ('"') end
 					Result.append_string_general (al_value.out)
 					if l_add_quotes then Result.append_character ('"') end
@@ -52,6 +52,10 @@ feature -- Output
 				Result.remove_tail (2)
 			end
 		end
+
+	key_value_separator: STRING
+			-- `key_value_separator' used between an attr_name and attr_value.
+		once ("object") Result := "=" end
 
 	attribute_separator: STRING
 			-- `attribute_separator' used between `attributes_out'.
