@@ -48,7 +48,7 @@ feature -- Test routines
 				string. The first value is the default. Thus, the attr_value = attr_default [1].
 				]"
 		do
-			assert_integers_equal ("has_3_attributes", 3, attribute_list.count)
+			assert_integers_equal ("has_4_attributes", 4, attribute_list.count)
 
 			set_attribute_value (agent color, "black")
 			assert_strings_equal ("black", "", attributes_out)
@@ -67,6 +67,8 @@ feature -- Test routines
 			set_attribute_value (agent color, "black")
 			set_attribute_value (agent href, "http://www.w3schools.com")
 			assert_strings_equal ("href", "href=%"http://www.w3schools.com%"", attributes_out)
+
+			set_attribute_value (agent comment, "something")
 		end
 
 feature {NONE} -- Implementation: Attributes
@@ -78,6 +80,7 @@ feature {NONE} -- Implementation: Attributes
 			Result.force (color, color.attr_name)
 			Result.force (values, values.attr_name)
 			Result.force (href, href.attr_name)
+			Result.force (comment, comment.attr_name)
 		ensure then
 			count: Result.count >= Default_capacity
 			matching: across Result as ic all ic.key.same_string (ic.item.attr_name) end
@@ -86,8 +89,9 @@ feature {NONE} -- Implementation: Attributes
 	color: attached like attribute_tuple_anchor attribute Result := ["black", "black|red|blue|yellow|orange", Void, "color", is_quoted] end
 	values: attached like attribute_tuple_anchor attribute Result := [100, 100, 0, "values", is_unquoted] end
 	href: attached like attribute_tuple_anchor attribute Result := ["", "", Void, "href", is_quoted] end
+	comment: attached like attribute_tuple_anchor attribute Result := ["", "", Void, "comment", is_quoted] end
 
-	Default_capacity: INTEGER = 2
+	Default_capacity: INTEGER = 4
 
 end
 
