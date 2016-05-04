@@ -111,21 +111,30 @@ feature -- Status Report
 
 feature -- Settings
 
-	set_attribute_value (a_attribute_agent: FUNCTION [ANY, TUPLE, attached like attribute_tuple_anchor]; a_value: detachable ANY)
+	set_attribute_values (a_arguments: ARRAY [TUPLE [attribute_agent: FUNCTION [ANY, TUPLE, attached like attribute_tuple_anchor]; value: detachable ANY]])
+		do
+			across
+				a_arguments as ic_arguments
+			loop
+				set_attribute_value (ic_arguments.item)
+			end
+		end
+
+	set_attribute_value (a_arguments: attached like set_attribute_value_argument_anchor)
 			-- `set_attribute_value' to `a_value' using `a_getter' agent function.
 			-- If `a_attribute_agent' has default-values-list, then `a_value' must be on that list.
 		do
-			a_attribute_agent.call ([Void])
-			check attached a_attribute_agent.last_result as al_result then
+			a_arguments.attribute_agent.call ([Void])
+			check attached a_arguments.attribute_agent.last_result as al_result then
 				check a_value_is_in_defaults_list:
 					(attached {STRING} al_result.attr_default as al_default and then al_default.is_empty) or else
-					(attached attribute_defaults_list (a_attribute_agent.twin) as al_defaults_list and then
-						attached {STRING} a_value as al_value implies
+					(attached attribute_defaults_list (a_arguments.attribute_agent.twin) as al_defaults_list and then
+						attached {STRING} a_arguments.value as al_value implies
 							across al_defaults_list as ic some
 									attached {STRING} ic.item as al_item and then al_item.same_string (al_value)
 								end)
 				end
-				al_result [Attribute_value] := a_value
+				al_result [Attribute_value] := a_arguments.value
 				if
 					attached {COMPARABLE} al_result [Attribute_value] as al_value and then
 					attached {COMPARABLE} al_result [Attribute_minimum] as al_min
@@ -134,7 +143,7 @@ feature -- Settings
 				end
 			end
 		ensure
-			set: attached a_attribute_agent.last_result as al_result and then al_result [Attribute_value] ~ a_value
+			set: attached a_arguments.attribute_agent.last_result as al_result and then al_result [Attribute_value] ~ a_arguments.value
 		end
 
 feature {NONE} -- Implementation: Constants
@@ -154,6 +163,9 @@ feature {NONE} -- Implementation: Anchors
 												attr_minimum: detachable NUMERIC;
 												attr_name: STRING;
 												is_quoted: BOOLEAN]
+
+	set_attribute_value_argument_anchor: detachable TUPLE [attribute_agent: FUNCTION [ANY, TUPLE, attached like attribute_tuple_anchor]; value: detachable ANY]
+			-- `set_attribute_value_argument_anchor'
 
 invariant
 	match_value_and_default: across attribute_list as ic all
