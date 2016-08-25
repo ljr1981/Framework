@@ -55,6 +55,7 @@ feature -- Basic Operations
 													)
 				l_process.redirect_error_to_same_as_output
 				check valid_error_redirection: l_process.is_error_redirection_valid (5) end
+				l_process.set_on_fail_launch_handler (agent launch_fail_handler (Result))
 				l_process.launch
 				l_process.wait_for_exit
 			else
@@ -64,6 +65,13 @@ feature -- Basic Operations
 			retried := True
 			retry
         end
+
+	launch_fail_handler (a_result: STRING)
+		do
+			last_error_result := a_result
+		end
+
+	last_error_result: detachable STRING
 
 feature {TEST_SET_BRIDGE} -- Implementation: Constants
 
