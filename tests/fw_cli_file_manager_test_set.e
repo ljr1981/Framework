@@ -41,17 +41,27 @@ feature -- Test routines
 			l_env: EXECUTION_ENVIRONMENT
 			l_src,
 			l_dest: PATH
-			l_result: STRING
 		do
 			create_temp_path
 			create l_env
 
+				-- MOVE
 			create l_file.make_create_read_write (l_env.current_working_path.name.out + "\temp_file.txt")
 			l_file.put_string ("something")
 			l_file.close
 
 			create l_src.make_from_string (l_env.current_working_path.name.out + "\temp_file.txt")
-			l_result := move (<<l_src>>, path)
+			move (<<l_src>>, path)
+
+				-- COPY (then MOVE to clean up)
+			create l_file.make_create_read_write (l_env.current_working_path.name.out + "\file_to_copy.txt")
+			l_file.put_string ("something_copied")
+			l_file.close
+
+			create l_src.make_from_string (l_env.current_working_path.name.out + "\file_to_copy.txt")
+			dos_copy (l_src, path)
+
+			move (<<l_src>>, path)
 
 			remove_temp_path
 		end

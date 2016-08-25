@@ -23,7 +23,23 @@ feature -- Queries
 
 	has_path: BOOLEAN do Result := attached internal_path end
 
-feature -- Basic Ops
+feature -- Temporary Path
+
+	create_temp_path
+			--
+		require
+			not_has_path: not has_path
+		local
+			l_dir: DIRECTORY
+			l_uuid: STRING
+		do
+			l_uuid := uuid.out
+			create l_dir.make (current_working_path.name.out + "\" + l_uuid)
+			l_dir.create_dir
+			create internal_path.make_from_separate (l_dir.path)
+		ensure
+			has_path: has_path
+		end
 
 	remove_temp_path
 			--
@@ -42,25 +58,9 @@ feature -- Basic Ops
 			no_path: not has_path
 		end
 
-	create_temp_path
-			--
-		require
-			not_has_path: not has_path
-		local
-			l_dir: DIRECTORY
-			l_uuid: STRING
-		do
-			l_uuid := uuid.out
-			create l_dir.make (current_working_path.name.out + "\" + l_uuid)
-			l_dir.create_dir
-			create internal_path.make_from_separate (l_dir.path)
-		ensure
-			has_path: has_path
-		end
+feature -- Internal DOS
 
-feature -- Basic Ops
-
-	move (a_source_list: ARRAY [PATH]; a_destination: PATH): STRING
+	move (a_source_list: ARRAY [PATH]; a_destination: PATH)
 			-- `move' `a_source_list' items to `a_destination' (always "suppress" or /Y)
 		note
 			syntax: "[
@@ -106,7 +106,48 @@ feature -- Basic Ops
 			l_cmd.remove_tail (1)
 			l_cmd.append_character (' ')
 			l_cmd.append_string_general (a_destination.name.out)
-			Result := output_of_command (l_cmd, "") --.do_nothing
+			output_of_command (l_cmd, "").do_nothing
+		ensure
+			has_error: last_error = 1 implies attached last_error_result
+			last_zero: last_error = 0
+		end
+
+	dos_copy (a_source, a_destination: PATH)
+			--
+		note
+			syntax: "[
+				Copy syntax
+				===========
+				Windows Vista and later syntax
+
+				COPY [/D] [/V] [/N] [/Y | /-Y] [/Z] [/L] [/A | /B ] source [/A | /B] [+ source [/A | /B] [+ ...]] [destination [/A | /B]]
+
+				source			Specifies the file or files to be copied.
+				/A				Indicates an ASCII text file.
+				/B				Indicates a binary file.
+				/D				Allow the destination file to be created decrypted.
+				destination		Specifies the directory or filename for the new file(s).
+				/V				Verifies that new files are written correctly.
+				/N				Uses short filename, if available, when copying a file with a non-8dot3 name.
+				/Y				Suppresses prompting to confirm you want to overwrite an existing destination file.
+				/-Y				Causes prompting to confirm you want to overwrite an existing destination file.
+				/Z				Copies networked files in restartable mode.
+				/L				If the source is a symbolic link, copy the link to the target instead of the actual file the source link points to.
+
+				The switch /Y may be preset in the COPYCMD environment variable. This may be overridden with /-Y on the command line. Default is to prompt on overwrites unless COPY command is being executed from within a batch script.
+				To append files, specify a single file for destination, but multiple files for source (using wildcards or file1+file2+file3 format).
+				]"
+		local
+			l_cmd: STRING
+		do
+			l_cmd := "CMD /C COPY "
+			l_cmd.append_string_general (a_source.name.out)
+			l_cmd.append_character (' ')
+	--		if a_is_ascii then l_cmd.append_string_general ("/A ") end
+	--		if a_is_binary then l_cmd.append_string_general ("/B ") end
+			l_cmd.append_string_general (a_destination.name.out)
+			l_cmd.append_string_general (" /Y /V")
+			output_of_command (l_cmd, "").do_nothing
 		ensure
 			has_error: last_error = 1 implies attached last_error_result
 			last_zero: last_error = 0
