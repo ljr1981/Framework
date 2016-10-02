@@ -55,11 +55,13 @@ feature -- Output
 
 	key_value_separator: STRING
 			-- `key_value_separator' used between an attr_name and attr_value.
-		once ("object") Result := "=" end
+		once
+			Result := "="
+		end
 
 	attribute_separator: STRING
 			-- `attribute_separator' used between `attributes_out'.
-		once ("object")
+		once
 			Result := "; "
 		end
 

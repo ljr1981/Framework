@@ -33,6 +33,23 @@ inherit
 
 feature -- Test routines
 
+	scan_test
+		local
+			l_mock: MOCK_PATH_SCANNER
+			l_env: EXECUTION_ENVIRONMENT
+			l_result: detachable PATH
+		do
+			create l_mock
+			create l_env
+			-- C:\Users\LJR19\Documents\GitHub\Framework\tests\files
+			l_result := l_mock.scan (l_env.current_working_path, "blah.txt")
+			if attached l_result as al_result then
+				assert_strings_equal ("has_blah_text", "C:\Users\LJR19\Documents\GitHub\Framework\tests\files\blah.txt", al_result.name.out)
+			else
+				check not_found: False end
+			end
+		end
+
 	path_scanner_test
 			-- `path_scanner_test'.
 		note
