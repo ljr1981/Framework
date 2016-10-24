@@ -9,6 +9,7 @@ deferred class
 feature -- Basic Operations
 
 	scan (a_path: PATH; a_file: STRING): detachable PATH
+			-- `scan' `a_path' for `a_file' and return a {PATH} when found.
 		local
 			l_dir: DIRECTORY
 		do
