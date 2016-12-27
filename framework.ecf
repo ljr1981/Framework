@@ -13,7 +13,6 @@
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<setting name="console_application" value="true"/>
-		<setting name="concurrency" value="scoop"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="process" location="$ISE_LIBRARY\library\process\process-safe.ecf">
 			<option>
@@ -32,6 +31,5 @@
 		<description>Framework library</description>
 		<root all_classes="true"/>
 		<version major="1" minor="1" release="1" build="1" company="Savannah Software Craftsmen" product="General Application Framework" trademark="SSC" copyright="2014"/>
-		<setting name="concurrency" value="scoop"/>
 	</target>
 </system>

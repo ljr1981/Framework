@@ -57,7 +57,9 @@ feature -- Basic Operations
 				check valid_error_redirection: l_process.is_error_redirection_valid (5) end
 				l_process.set_on_fail_launch_handler (agent launch_fail_handler (Result))
 				l_process.launch
-				l_process.wait_for_exit
+				if is_wait_for_exit then
+					l_process.wait_for_exit
+				end
 			else
 				last_error := 1
 			end
@@ -72,6 +74,25 @@ feature -- Basic Operations
 		end
 
 	last_error_result: detachable STRING
+
+feature -- Status Report: Wait for Exit
+
+	is_not_wait_for_exit: BOOLEAN
+
+	is_wait_for_exit: BOOLEAN
+		do
+			Result := not is_not_wait_for_exit
+		end
+
+	set_do_not_wait_for_exit
+		do
+			is_not_wait_for_exit := True
+		end
+
+	set_wait_for_exit
+		do
+			is_not_wait_for_exit := False
+		end
 
 feature {TEST_SET_BRIDGE} -- Implementation: Constants
 
