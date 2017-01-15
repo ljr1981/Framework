@@ -54,7 +54,6 @@ feature -- Basic Operations
 														end (Result, ?)
 													)
 				l_process.redirect_error_to_same_as_output
-				check valid_error_redirection: l_process.is_error_redirection_valid (5) end
 				l_process.set_on_fail_launch_handler (agent launch_fail_handler (Result))
 				l_process.launch
 				if is_wait_for_exit then
