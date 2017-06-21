@@ -14,7 +14,7 @@
 		</option>
 		<setting name="console_application" value="true"/>
 		<capability>
-			<concurrency support="none" use="thread"/>
+			<concurrency support="thread" use="thread"/>
 			<void_safety support="transitional" use="transitional"/>
 		</capability>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
@@ -40,7 +40,7 @@
 		<root all_classes="true"/>
 		<version major="1" minor="1" release="1" build="1" company="Savannah Software Craftsmen" product="General Application Framework" trademark="SSC" copyright="2014"/>
 		<capability>
-			<concurrency support="none" use="thread"/>
+			<concurrency support="thread" use="thread"/>
 		</capability>
 	</target>
 </system>
