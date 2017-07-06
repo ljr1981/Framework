@@ -46,6 +46,11 @@ feature -- Output
 					Result.append_string_general (al_value.out)
 					if l_add_quotes then Result.append_character ('"') end
 					Result.append_string_general (Attribute_separator)
+				elseif
+					l_value = Void and then l_default = Void
+				then
+					Result.append_string (ic_list.item.attr_name)
+					Result.append_string_general (Attribute_separator)
 				end
 			end
 			if Result.count > 0 and then Result [Result.count] = ' ' then
