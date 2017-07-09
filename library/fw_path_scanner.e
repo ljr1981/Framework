@@ -11,21 +11,13 @@ feature -- Basic Operations
 	scan (a_path: PATH; a_file: STRING): detachable PATH
 			-- `scan' `a_path' for `a_file' and return a {PATH} when found.
 		local
-			l_dir: DIRECTORY
+			l_utils: FILE_UTILITIES
+			l_entries: ARRAYED_LIST [PATH]
 		do
-			create l_dir.make_with_path (a_path)
-			if across l_dir.entries as ic some ic.item.name.out.same_string (a_file) end then
-				create Result.make_from_string (a_path.absolute_path.name.out + "\" + a_file)
-			else
-				across
-					l_dir.entries as ic
-				until
-					attached Result
-				loop
-					if not (ic.item.is_current_symbol or ic.item.is_parent_symbol) then
-						Result := scan (create {PATH}.make_from_string (a_path.name.out + "\" + ic.item.name.out), a_file)
-					end
-				end
+			create l_utils
+			l_entries := l_utils.ends_with (a_path, a_file, -1)
+			if not l_entries.is_empty then
+				Result := l_entries [1]
 			end
 		end
 

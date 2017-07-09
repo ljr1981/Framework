@@ -44,11 +44,13 @@ feature -- Test routines
 			l_blah,
 			l_set_blah: STRING
 		do
-			create l_mock
-			assert_32 ("set_blah", not l_mock.output_of_command ("set_path.cmd", "").is_empty)
-			l_blah := l_mock.output_of_command ("path.cmd", "")
-			print ("blah: `" + l_blah + "'")
---			assert_32 ("has_blah", l_blah.has_substring (";blah"))
+			if {PLATFORM}.is_windows then
+				create l_mock
+				assert_32 ("set_blah", not l_mock.output_of_command ("set_path.cmd", "").is_empty)
+				l_blah := l_mock.output_of_command ("path.cmd", "")
+				print ("blah: `" + l_blah + "'")
+	--			assert_32 ("has_blah", l_blah.has_substring (";blah"))
+			end
 		end
 
 	output_of_where_test
@@ -56,7 +58,9 @@ feature -- Test routines
 			l_mock: FW_PROCESS_HELPER
 		do
 			create l_mock
-			assert_strings_equal ("where", l_mock.DOS_where_not_found_message, l_mock.output_of_command ("where you_wont_find_me.exe", ""))
+			if {PLATFORM}.is_windows then
+				assert_strings_equal ("where", l_mock.DOS_where_not_found_message, l_mock.output_of_command ("where you_wont_find_me.exe", ""))
+			end
 		end
 
 	has_file_test
@@ -73,10 +77,12 @@ feature -- Test routines
 			l_mock: FW_PROCESS_HELPER
 			l_result: STRING
 		do
-			create l_mock
-			l_result := l_mock.output_of_command ("where notepad.exe", "")
-			assert_integers_equal ("notepad_length", notepad_where.count, l_result.count)
-			assert_strings_equal ("notepad", notepad_where, l_result)
+			if {PLATFORM}.is_windows then
+				create l_mock
+				l_result := l_mock.output_of_command ("where notepad.exe", "")
+				assert_integers_equal ("notepad_length", notepad_where.count, l_result.count)
+				assert_strings_equal ("notepad", notepad_where, l_result)
+			end
 		end
 
 feature {NONE} -- Implementation

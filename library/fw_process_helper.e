@@ -20,7 +20,7 @@ feature -- Status Report
 		do
 			l_msg := dos_where_not_found_message.twin
 			l_result := output_of_command ("where " + a_name, "")
-			Result := not l_result.same_string (l_msg)
+			Result := not l_result.same_string (l_msg) xor {PLATFORM}.is_unix
 		end
 
 feature -- Basic Operations

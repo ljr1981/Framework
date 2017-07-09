@@ -43,8 +43,8 @@ feature -- Test routines
 			create l_env
 			-- C:\Users\LJR19\Documents\GitHub\Framework\tests\files
 			l_result := l_mock.scan (l_env.current_working_path, "blah.txt")
-			if attached l_result as al_result then
-				assert_strings_equal ("has_blah_text", "C:\Users\LJR19\Documents\GitHub\Framework\tests\files\blah.txt", al_result.name.out)
+			if attached l_result as al_result and then attached al_result.name.out as al_name then
+				assert_32 ("has_blah", al_name.has_substring ("blah.txt"))
 			else
 				check not_found: False end
 			end
