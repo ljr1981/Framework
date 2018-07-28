@@ -37,7 +37,7 @@ feature -- Basic Operations
 					l_dir.entries as ic_entries
 				loop
 					if not (ic_entries.item.is_current_symbol or ic_entries.item.is_parent_symbol) then -- ignore "."/".." paths
-						scan_path (create {PATH}.make_from_string (l_dir.name.out + a_path.directory_separator.out + ic_entries.item.name.out), a_level + 1)
+						scan_path (create {PATH}.make_from_string (l_dir.path.out + a_path.directory_separator.out + ic_entries.item.name.out), a_level + 1)
 					end
 				end
 			end

@@ -160,7 +160,7 @@ feature -- Status Report
 
 feature -- Adders
 
-	add_column (a_title: STRING; a_field: ANY)
+	add_column (a_title: STRING; a_field: ANY; a_mask: detachable INPUT_MASK [ANY, DATA_COLUMN_METADATA [ANY]])
 		local
 			l_column: INTEGER
 			l_mask: INPUT_MASK [ANY, DATA_COLUMN_METADATA [ANY]]
@@ -171,18 +171,22 @@ feature -- Adders
 			column (l_column).set_title (a_title)
 			create l_font
 			column (l_column).set_width (l_font.string_width (a_title) + 20)
-			if attached {DECIMAL} a_field as al_field then
-				create {DECIMAL_VALUE_INPUT_MASK} l_mask.make (2, 10)
-			elseif attached {DATE} a_field as al_field then
-				create {DATE_TIME_VALUE_INPUT_MASK} l_mask.make_with_date
-			elseif attached {DATE_TIME} a_field as al_field then
-				create {DATE_TIME_VALUE_INPUT_MASK} l_mask.make_with_date_and_time
-			elseif attached {TIME} a_field as al_field then
-				create {DATE_TIME_VALUE_INPUT_MASK} l_mask.make_with_time
-			elseif attached {STRING} a_field as al_field then
-				create {STRING_VALUE_INPUT_MASK} l_mask.make_repeating ("!")
+			if attached a_mask as al_mask then
+				l_mask := a_mask
 			else
-				create {STRING_VALUE_INPUT_MASK} l_mask.make_repeating ("!")
+				if attached {DECIMAL} a_field as al_field then
+					create {DECIMAL_VALUE_INPUT_MASK} l_mask.make (2, 10)
+				elseif attached {DATE} a_field as al_field then
+					create {DATE_TIME_VALUE_INPUT_MASK} l_mask.make_with_date
+				elseif attached {DATE_TIME} a_field as al_field then
+					create {DATE_TIME_VALUE_INPUT_MASK} l_mask.make_with_date_and_time
+				elseif attached {TIME} a_field as al_field then
+					create {DATE_TIME_VALUE_INPUT_MASK} l_mask.make_with_time
+				elseif attached {STRING} a_field as al_field then
+					create {STRING_VALUE_INPUT_MASK} l_mask.make_repeating ("!")
+				else
+					create {STRING_VALUE_INPUT_MASK} l_mask.make_repeating ("!")
+				end
 			end
 			column_masks.force (l_mask)
 		end

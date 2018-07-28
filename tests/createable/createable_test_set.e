@@ -46,6 +46,8 @@ feature {NONE} -- Implementation: Constants
 
 	counted_stuff: INTEGER = 500
 
+	grid: detachable FW_GRID
+
 end
 
 

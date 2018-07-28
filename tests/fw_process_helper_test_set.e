@@ -87,7 +87,7 @@ feature -- Test routines
 
 feature {NONE} -- Implementation
 
-	notepad_where: STRING = "C:\WINDOWS\System32\notepad.exe%R%NC:\WINDOWS\notepad.exe%R%N"
+	notepad_where: STRING = "C:\Windows\System32\notepad.exe%R%NC:\Windows\notepad.exe%R%N"
 
 end
 
