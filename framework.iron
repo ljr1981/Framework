@@ -1,0 +1,15 @@
+package framework
+
+project
+	framework = "framework.ecf"
+
+note
+	title: Misc Eiffel Framework
+	description: "A collection of useful misc Eiffel classes"
+
+	tags: eiffel,misc,useful,classes
+	license: Eiffel Forum License v2 
+	copyright: 2018 Larry Rix
+	link[license]: http://www.eiffel.com/licensing/forum.txt external
+
+end
