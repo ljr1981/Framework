@@ -190,10 +190,29 @@ feature -- Test routines
 				end
 			end
 
-
 			l_array.put_row_offset (offset_2, 2, 2) -- put `offset_2' in row-2, starting in col-2
 			assert_arrays_equal ("offset_2_result", offset_2_result, l_array.row (2))
 
+			create l_array.make_filled (0, 2, 4)
+			assert_integers_equal ("rows_is_two", 2, l_array.row_count)
+			l_array.put_by_row (<<10, 20, 30, 40, 100, 200, 300, 400, 1_000, 2_000, 3_000, 4_000>>)
+			assert_integers_equal ("rows_is_four", 4, l_array.row_count)
+
+			across
+				l_array.rows as ic
+			loop
+				inspect
+					ic.cursor_index
+				when 1 then
+					assert_arrays_equal ("row_1", row_1, ic.item)
+				when 2 then
+					assert_arrays_equal ("row_2", row_2, ic.item)
+				when 3 then
+					assert_arrays_equal ("row_3", row_3, ic.item)
+				else
+
+				end
+			end
 		end
 
 feature {NONE} -- Constants

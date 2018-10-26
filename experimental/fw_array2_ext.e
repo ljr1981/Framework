@@ -33,11 +33,23 @@ inherit
 		rename
 			height as row_count,
 			width as column_count
+		redefine
+			make_filled
 		end
 
 create
 	make,
 	make_filled
+
+feature {NONE} -- Initialization
+
+	make_filled (a_default_value: G; nb_rows, nb_columns: INTEGER_32)
+			-- <Precursor>
+			-- And save `a_default_value'.
+		do
+			Precursor (a_default_value, nb_rows, nb_columns)
+			default_value_internal := a_default_value
+		end
 
 feature -- Access
 
@@ -180,5 +192,37 @@ feature -- Settings
 							item (ic.item + a_offset - 1, a_column_index) ~ a_items.item (ic.item)
 						end
 		end
+
+	put_by_row (a_items: ARRAY [G])
+			--
+		local
+			rn, cn: INTEGER
+		do
+			across
+				a_items as ic
+			from
+				rn := 1
+				cn := 1
+			loop
+				put (ic.item, rn, cn)
+				cn := cn + 1
+				if cn > column_count then
+					cn := 1
+					rn := rn + 1
+					if rn > row_count then
+						resize_with_default (default_value, row_count + 1, column_count)
+					end
+				end
+			end
+		end
+
+Feature {NONE} -- Implementation
+
+	default_value: attached like default_value_internal
+		do
+			check attached default_value_internal as al_value then Result := al_value end
+		end
+
+	default_value_internal: detachable G
 
 end
