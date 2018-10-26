@@ -131,4 +131,107 @@ feature {NONE} -- Implementation
 			create Result.make_n_based (<<[1,2], [1,2], [1,2]>>)
 		end
 
+feature -- Testing
+
+feature -- Test routines
+
+	array2_ext_test
+		local
+			l_array: FW_ARRAY2_EXT [INTEGER]
+		do
+			create l_array.make_filled (0, 3, 4)
+			l_array.put_row (row_1, 1)
+			l_array.put_row (row_2, 2)
+			l_array.put_row (row_3, 3)
+			assert_integers_equal ("row_3_col_4", 4_000, l_array.item (3, 4)) -- Ensure on `put_row' now handles this!
+
+			assert_arrays_equal ("row_1", row_1, l_array.row (1))
+			assert_arrays_equal ("row_2", row_2, l_array.row (2))
+			assert_arrays_equal ("row_3", row_3, l_array.row (3))
+
+			l_array.rows.do_nothing
+			across
+				l_array.rows as ic
+			loop
+				inspect
+					ic.cursor_index
+				when 1 then
+					assert_arrays_equal ("row_1", row_1, ic.item)
+				when 2 then
+					assert_arrays_equal ("row_2", row_2, ic.item)
+				when 3 then
+					assert_arrays_equal ("row_3", row_3, ic.item)
+				else
+
+				end
+			end
+
+			assert_arrays_equal ("col_1", col_1, l_array.column (1))
+			assert_arrays_equal ("col_2", col_2, l_array.column (2))
+			assert_arrays_equal ("col_3", col_3, l_array.column (3))
+			assert_arrays_equal ("col_4", col_4, l_array.column (4))
+
+			l_array.columns.do_nothing
+			across
+				l_array.columns as ic
+			loop
+				inspect
+					ic.cursor_index
+				when 1 then
+					assert_arrays_equal ("col_1", col_1, ic.item)
+				when 2 then
+					assert_arrays_equal ("col_2", col_2, ic.item)
+				when 3 then
+					assert_arrays_equal ("col_3", col_3, ic.item)
+				when 4 then
+					assert_arrays_equal ("col_3", col_4, ic.item)
+				else
+
+				end
+			end
+
+
+			l_array.put_row_offset (offset_2, 2, 2) -- put `offset_2' in row-2, starting in col-2
+			assert_arrays_equal ("offset_2_result", offset_2_result, l_array.row (2))
+
+		end
+
+feature {NONE} -- Constants
+
+	row_1: ARRAY [INTEGER]
+			-- Row data
+		once Result := <<10, 20, 30, 40>> end
+
+	row_2: ARRAY [INTEGER]
+			-- Row data
+		once Result := <<100, 200, 300, 400>> end
+
+	row_3: ARRAY [INTEGER]
+			-- Row data
+		once Result := <<1_000, 2_000, 3_000, 4_000>> end
+
+	col_1: ARRAY [INTEGER]
+			-- Column data
+		once Result := <<10, 100, 1_000>> end
+
+	col_2: ARRAY [INTEGER]
+			-- Column data
+		once Result := <<20, 200, 2_000>> end
+
+	col_3: ARRAY [INTEGER]
+			-- Column data
+		once Result := <<30, 300, 3_000>> end
+
+	col_4: ARRAY [INTEGER]
+			-- Column data
+		once Result := <<40, 400, 4_000>> end
+
+	offset_2: ARRAY [INTEGER]
+			-- Offset data
+		once Result := <<-200, -300>> end
+
+	offset_2_result: ARRAY [INTEGER]
+			-- Offset data
+		once Result := <<100, -200, -300, 400>> end
+
 end
