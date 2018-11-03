@@ -195,8 +195,8 @@ feature -- Test routines
 
 			create l_array.make_filled (0, 2, 4)
 			assert_integers_equal ("rows_is_two", 2, l_array.row_count)
-			l_array.put_by_row (<<10, 20, 30, 40, 100, 200, 300, 400, 1_000, 2_000, 3_000, 4_000>>)
-			assert_integers_equal ("rows_is_four", 4, l_array.row_count)
+			l_array.put_by_row (<<10, 20, 30, 40, 100, 200, 300, 400, 1_000, 2_000, 3_000, 4_000>>, 1)
+			assert_integers_equal ("rows_is_three", 3, l_array.row_count)
 
 			across
 				l_array.rows as ic
@@ -209,6 +209,24 @@ feature -- Test routines
 					assert_arrays_equal ("row_2", row_2, ic.item)
 				when 3 then
 					assert_arrays_equal ("row_3", row_3, ic.item)
+				else
+
+				end
+			end
+
+			across
+				l_array.columns as ic
+			loop
+				inspect
+					ic.cursor_index
+				when 1 then
+					assert_arrays_equal ("col_1", col_1, ic.item)
+				when 2 then
+					assert_arrays_equal ("col_2", col_2, ic.item)
+				when 3 then
+					assert_arrays_equal ("col_3", col_3, ic.item)
+				when 4 then
+					assert_arrays_equal ("col_3", col_4, ic.item)
 				else
 
 				end

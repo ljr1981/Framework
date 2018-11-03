@@ -47,8 +47,8 @@ feature {NONE} -- Initialization
 			-- <Precursor>
 			-- And save `a_default_value'.
 		do
-			Precursor (a_default_value, nb_rows, nb_columns)
 			default_value_internal := a_default_value
+			Precursor (a_default_value, nb_rows, nb_columns)
 		end
 
 feature -- Access
@@ -193,27 +193,39 @@ feature -- Settings
 						end
 		end
 
-	put_by_row (a_items: ARRAY [G])
-			--
+	put_by_row (a_items: ARRAY [G]; a_starting_row: INTEGER)
+			-- Put `a_items' into Current, starting at `a_starting_row'
+			-- NOTE: If the count of `a_items' does not match `column_count'
+			-- 	precisely, then any remaining columns in the last row will
+			--	be filled with `default_value'.
+		require
+			space: row_count > 0 and column_count > 0
+			valid_starting: a_starting_row > 0 and then a_starting_row <= row_count
 		local
 			rn, cn: INTEGER
 		do
 			across
 				a_items as ic
 			from
-				rn := 1
-				cn := 1
+				rn := a_starting_row; cn := 0
 			loop
-				put (ic.item, rn, cn)
 				cn := cn + 1
 				if cn > column_count then
-					cn := 1
-					rn := rn + 1
+					cn := 1; rn := rn + 1
 					if rn > row_count then
 						resize_with_default (default_value, row_count + 1, column_count)
 					end
 				end
+				put (ic.item, rn, cn)
 			end
+		end
+
+	append_by_row (a_items: ARRAY [G])
+			-- Append `a_items' to bottom (current `row_count' + 1)
+			-- 	(grow by at least 1 row and then `put_by_row').
+		do
+			resize_with_default (default_value, row_count + 1, column_count)
+			put_by_row (a_items, row_count)
 		end
 
 Feature {NONE} -- Implementation
