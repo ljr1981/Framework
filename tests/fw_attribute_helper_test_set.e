@@ -93,6 +93,13 @@ feature {NONE} -- Implementation: Attributes
 
 	Default_capacity: INTEGER = 4
 
+--	check_scoop (a_string: separate STRING)
+--		local
+--			str: STRING
+--		do
+--			str := a_string
+--		end
+--		
 end
 
 

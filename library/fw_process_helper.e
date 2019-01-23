@@ -10,6 +10,9 @@ note
 class
 	FW_PROCESS_HELPER
 
+inherit
+	RANDOMIZER
+
 feature -- Status Report
 
 	has_file_in_path (a_name: STRING): BOOLEAN
@@ -19,7 +22,7 @@ feature -- Status Report
 			l_msg: STRING
 		do
 			l_msg := dos_where_not_found_message.twin
-			l_result := output_of_command ("where " + a_name, "")
+			l_result := output_of_command ("where " + a_name, ".")
 			Result := not l_result.same_string (l_msg) xor {PLATFORM}.is_unix
 		end
 
@@ -27,45 +30,50 @@ feature -- Basic Operations
 
 	last_error: INTEGER
 
-	output_of_command (a_cmd, a_directory: STRING): STRING
-                -- `output_of_command' `a_cmd' launched in `a_directory'.
-        require
-			cmd_attached: attached a_cmd
-			dir_attached: attached a_directory
-        local
-                l_factory: PROCESS_FACTORY
-                l_process: PROCESS
-                retried: BOOLEAN
-        do
-        	create Result.make_empty
-			if not retried then
-				last_error := 0
-				create Result.make (100)
-				create l_factory
-				l_process := l_factory.process_launcher_with_command_line (a_cmd, a_directory)
-				l_process.set_hidden (True)
-				l_process.set_separate_console (False)
-				l_process.redirect_input_to_stream
-				l_process.redirect_output_to_agent (agent (la_result, la_content: STRING)
-														do
-															if attached la_content then
-																la_result.append_string (la_content)
-															end
-														end (Result, ?)
-													)
-				l_process.redirect_error_to_same_as_output
-				l_process.set_on_fail_launch_handler (agent launch_fail_handler (Result))
-				l_process.launch
-				if is_wait_for_exit then
-					l_process.wait_for_exit
+	output_of_command (a_command_line: READABLE_STRING_32; a_directory: detachable READABLE_STRING_32): STRING_32
+                -- `output_of_command' `a_command_line' launched in `a_directory' (e.g. "." = Current directory).
+		require
+			cmd_not_empty: not a_command_line.is_empty
+			dir_not_empty: attached a_directory as al_dir implies not al_dir.is_empty
+		local
+			l_process: BASE_PROCESS
+			l_buffer: SPECIAL [NATURAL_8]
+			l_result: STRING_32
+			l_args: ARRAY [STRING_32]
+			l_cmd: STRING_32
+			l_list: LIST [READABLE_STRING_32]
+		do
+			create Result.make_empty
+			l_list := a_command_line.split (' ')
+			l_cmd := l_list [1]
+			if l_list.count >= 2 then
+				create l_args.make_filled ({STRING_32} "", 1, l_list.count - 1)
+				across
+					2 |..| l_list.count as ic
+				loop
+					l_args.put (l_list [ic.item], ic.item - 1)
 				end
-			else
-				last_error := 1
 			end
-        rescue
-			retried := True
-			retry
-        end
+			l_process := (create {BASE_PROCESS_FACTORY}).process_launcher (l_cmd, l_args, a_directory)
+			l_process.set_hidden (True)
+			l_process.redirect_output_to_stream
+			l_process.redirect_error_to_same_as_output
+			l_process.launch
+			if l_process.launched then
+				from
+					create l_buffer.make_filled (0, 512)
+				until
+					l_process.has_output_stream_closed or else l_process.has_output_stream_error
+				loop
+					l_buffer := l_buffer.aliased_resized_area_with_default (0, l_buffer.capacity)
+					l_process.read_output_to_special (l_buffer)
+					l_result := converter.console_encoding_to_utf32 (console_encoding, create {STRING_8}.make_from_c_substring ($l_buffer, 1, l_buffer.count))
+					l_result.prune_all ({CHARACTER_32} '%R')
+					Result.append (l_result)
+				end
+				l_process.wait_for_exit
+			end
+		end
 
 	launch_fail_handler (a_result: STRING)
 		do
@@ -93,8 +101,22 @@ feature -- Status Report: Wait for Exit
 			is_not_wait_for_exit := False
 		end
 
+feature {NONE} -- Code page conversion
+
+	converter: LOCALIZED_PRINTER
+			-- Converter of the input data into Unicode.
+		once
+			create Result
+		end
+
+	console_encoding: ENCODING
+			-- Current console encoding.
+		once
+			Result := (create {SYSTEM_ENCODINGS}).console_encoding
+		end
+
 feature {TEST_SET_BRIDGE} -- Implementation: Constants
 
-	DOS_where_not_found_message: STRING = "INFO: Could not find files for the given pattern(s).%R%N"
+	DOS_where_not_found_message: STRING = "INFO: Could not find files for the given pattern(s).%N"
 
 end

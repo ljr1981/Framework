@@ -106,7 +106,7 @@ feature -- Internal DOS
 			l_cmd.remove_tail (1)
 			l_cmd.append_character (' ')
 			l_cmd.append_string_general (a_destination.name.out)
-			output_of_command (l_cmd, "").do_nothing
+			output_of_command (l_cmd, Void).do_nothing
 		ensure
 			has_error: last_error = 1 implies attached last_error_result
 			last_zero: last_error = 0
@@ -138,7 +138,7 @@ feature -- Internal DOS
 				To append files, specify a single file for destination, but multiple files for source (using wildcards or file1+file2+file3 format).
 				]"
 		local
-			l_cmd: STRING
+			l_cmd: STRING_32
 		do
 			l_cmd := "CMD /C COPY "
 			l_cmd.append_string_general (a_source.name.out)
@@ -147,7 +147,7 @@ feature -- Internal DOS
 	--		if a_is_binary then l_cmd.append_string_general ("/B ") end
 			l_cmd.append_string_general (a_destination.name.out)
 			l_cmd.append_string_general (" /Y /V")
-			output_of_command (l_cmd, "").do_nothing
+			output_of_command (l_cmd, Void).do_nothing
 		ensure
 			has_error: last_error = 1 implies attached last_error_result
 			last_zero: last_error = 0
