@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-19-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-19-0 http://www.eiffel.com/developers/xml/configuration-1-19-0.xsd" name="framework" uuid="526319CB-ECC7-4D7D-AAF0-64C3A5D581B9" library_target="framework">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-21-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-21-0 http://www.eiffel.com/developers/xml/configuration-1-21-0.xsd" name="framework" uuid="526319CB-ECC7-4D7D-AAF0-64C3A5D581B9" library_target="framework">
 	<description>Collection of classes too small for their own library</description>
 	<target name="test">
 		<description>Test target for Framework</description>
@@ -9,10 +9,12 @@
 			<exclude>eifgens</exclude>
 			<exclude>git</exclude>
 		</file_rule>
-		<option warning="true" is_obsolete_routine_type="true" syntax="provisional" manifest_array_type="mismatch_warning">
+		<option warning="warning" is_obsolete_routine_type="true" syntax="provisional" manifest_array_type="mismatch_warning">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<setting name="console_application" value="true"/>
+		<setting name="total_order_on_reals" value="false"/>
+		<setting name="dead_code_removal" value="feature"/>
 		<capability>
 			<concurrency support="scoop" use="scoop"/>
 			<void_safety support="transitional" use="transitional"/>
@@ -20,7 +22,7 @@
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="base_process" location="$ISE_LIBRARY\library\process\base\base_process.ecf"/>
 		<library name="decimal" location="$ISE_LIBRARY\contrib\library\math\decimal\decimal\decimal.ecf"/>
-		<library name="encoding" location="iron:encoding:encoding.ecf"/>
+		<library name="encoding" location="$ISE_LIBRARY\library\encoding\encoding.ecf"/>
 		<library name="randomizer" location="..\randomizer\randomizer.ecf"/>
 		<library name="test_extension" location="..\test_extension\test_extension.ecf"/>
 		<library name="testing" location="$ISE_LIBRARY\library\testing\testing-safe.ecf"/>
@@ -33,5 +35,6 @@
 		<description>Framework library</description>
 		<root all_classes="true"/>
 		<version major="1" minor="1" release="1" build="1" company="Savannah Software Craftsmen" product="General Application Framework" trademark="SSC" copyright="2014"/>
+		<setting name="total_order_on_reals" value="false"/>
 	</target>
 </system>
