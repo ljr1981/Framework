@@ -17,7 +17,7 @@
 		<setting name="dead_code_removal" value="feature"/>
 		<capability>
 			<concurrency support="scoop" use="scoop"/>
-			<void_safety support="transitional" use="transitional"/>
+			<void_safety support="all" use="all"/>
 		</capability>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="base_process" location="$ISE_LIBRARY\library\process\base\base_process.ecf"/>

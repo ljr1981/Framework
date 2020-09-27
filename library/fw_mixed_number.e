@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Representation of a mixed number."
 
 class
@@ -273,13 +273,13 @@ feature -- Basic operations
 			create Result.make ((l_new_numerator < 0), 0, l_final_numerator, l_final_denominator)
 		end
 
-	minus alias "-" (other: like Current): like Current
+	minus alias "-" alias "−" (other: like Current): like Current
 			-- Result of subtracting `other'
 		do
 			Result := plus (- other)
 		end
 
-	product alias "*" (other: like Current): like Current
+	product alias "*" alias "×" (other: like Current): like Current
 			-- Product by `other'
 		local
 			l_new_numerator, l_new_denominator, l_gcd: NATURAL_32
@@ -294,7 +294,7 @@ feature -- Basic operations
 			create Result.make (l_result_negative, 0, l_new_numerator, l_new_denominator)
 		end
 
-	quotient alias "/" (other: like Current): like Current
+	quotient alias "/" alias "÷" (other: like Current): like Current
 			-- Division by `other'
 		local
 			l_divisor: FW_MIXED_NUMBER
@@ -309,7 +309,7 @@ feature -- Basic operations
 			Result := twin
 		end
 
-	opposite alias "-": like Current
+	opposite alias "-" alias "−": like Current
 			-- Unary minus
 		do
 			create Result.make (not is_negative, whole_part, numerator, denominator)

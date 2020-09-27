@@ -10,9 +10,6 @@ note
 class
 	FW_PROCESS_HELPER
 
-inherit
-	RANDOMIZER
-
 feature -- Status Report
 
 	has_file_in_path (a_name: STRING): BOOLEAN
